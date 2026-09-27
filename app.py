@@ -15,7 +15,7 @@ from PIL import Image
 
 st.set_page_config(page_title="03B2 FontCLIP Henderson–Grohmann", layout="wide")
 
-APP_VERSION="1.0"
+APP_VERSION="1.1"
 APP_DIR=Path(__file__).resolve().parent
 RUNTIME_ROOT=Path.home()/".cache"/"fontclip_brand_personality_03b2"
 
@@ -97,6 +97,18 @@ def prepare_checkpoint():
 
 @st.cache_resource(show_spinner=False)
 def load_fontclip_runtime():
+    # FontCLIP's upstream tokenizer imports pkg_resources, which is supplied
+    # by setuptools. Keep this explicit because some Streamlit Cloud images
+    # omit it from the runtime environment.
+    try:
+        import pkg_resources  # noqa: F401
+    except ModuleNotFoundError as e:
+        raise RuntimeError(
+            "FontCLIP 실행에 필요한 `pkg_resources`가 없습니다. "
+            "requirements.txt에 `setuptools==80.9.0`가 포함되어 있는지 확인한 뒤 "
+            "Streamlit 앱을 Reboot 하세요."
+        ) from e
+
     repo_dir=prepare_fontclip_source()
     checkpoint_path=prepare_checkpoint()
     if str(repo_dir) not in sys.path:
