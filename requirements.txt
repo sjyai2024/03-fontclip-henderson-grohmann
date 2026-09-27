@@ -1,0 +1,12 @@
+streamlit>=1.42,<2
+pandas>=2.2,<3
+numpy>=1.26,<3
+requests>=2.31,<3
+pillow>=10,<12
+matplotlib>=3.8,<4
+gdown>=5.2,<6
+torch>=2.2,<3
+torchvision>=0.17,<1
+ftfy>=6.2,<7
+regex>=2024.5
+tqdm>=4.66,<5
