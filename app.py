@@ -15,7 +15,7 @@ from PIL import Image
 
 st.set_page_config(page_title="03B2 FontCLIP Henderson–Grohmann", layout="wide")
 
-APP_VERSION="1.1"
+APP_VERSION="1.2"
 APP_DIR=Path(__file__).resolve().parent
 RUNTIME_ROOT=Path.home()/".cache"/"fontclip_brand_personality_03b2"
 
@@ -291,14 +291,14 @@ def evaluate_h1(text,visual,n_perm):
     common,T,V,Tz,Vz=align_common(text,visual)
     D=distance_matrix(Tz,Vz)
     M=corr_matrix(Tz,Vz)
-    dmatch,doff,pd=permutation_distance(D,n_perm)
+    dmatch,doff,p_dist=permutation_distance(D,n_perm)
     rmatch,roff,pr=permutation_corr(M,n_perm)
     retr=retrieval_table(common,T,V,D)
     summary=pd.DataFrame([{
         "N_Common":len(common),
         "Matched_Mean_Distance":dmatch,
         "Nonmatching_Mean_Distance":doff,
-        "Distance_Permutation_p_one_sided":pd,
+        "Distance_Permutation_p_one_sided":p_dist,
         "Matched_Mean_Profile_r":rmatch,
         "Nonmatching_Mean_Profile_r":roff,
         "Correlation_Permutation_p_one_sided":pr,
